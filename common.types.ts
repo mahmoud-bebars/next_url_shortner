@@ -50,5 +50,5 @@ export interface UserSession {
   image: string;
   role: Role;
   isActive: boolean;
-  menuLimits: number;
+  urlsLimit: number;
 }
