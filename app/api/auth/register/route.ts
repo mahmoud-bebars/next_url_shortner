@@ -3,10 +3,10 @@ import {
   userExistEmail,
   userExistPhone,
 } from "@/lib/actions/users";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 // POST (Register Route)
-export const POST = async (request: NextRequest, response: NextResponse) => {
+export const POST = async (request: NextRequest) => {
   const { name, phone, email, username, password } = await request.json();
 
   try {
@@ -42,6 +42,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
       statusText: "Your Account Is Created",
     });
   } catch (error) {
+    console.log(error);
     return new Response("Faild to create a New Account", {
       status: 500,
       statusText: "Faild To Create Your Account... Try Again",

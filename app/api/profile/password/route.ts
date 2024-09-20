@@ -1,9 +1,9 @@
 import { getUser, updateUserPassword } from "@/lib/actions/users";
 import { comparePassword } from "@/lib/utils";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 // POST (Register Route)
-export const PUT = async (request: NextRequest, response: NextResponse) => {
+export const PUT = async (request: NextRequest) => {
   const { id, currentPassword, newPassword } = await request.json();
 
   try {

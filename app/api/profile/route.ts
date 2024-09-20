@@ -1,8 +1,8 @@
 import { updateUserProfile } from "@/lib/actions/users";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 // POST (Register Route)
-export const PUT = async (request: NextRequest, response: NextResponse) => {
+export const PUT = async (request: NextRequest) => {
   const { id, name, phone, email, username, image } = await request.json();
 
   try {
