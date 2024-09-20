@@ -20,8 +20,8 @@ export default function UrlList({
   const [urls, setUrls] = useState<Url[]>(data);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center px-2 pb-5">
-      <div className="w-full flex items-center gap-3 justify-between py-5">
+    <div className="w-full max-w-3xl flex flex-col items-center justify-center px-2 pb-5 border rounded-lg">
+      <div className="w-full flex items-center gap-3 justify-between py-2 border-b mb-2">
         <h2 className="text-2xl font-bold mb-2">My URLs</h2>{" "}
         {limit === urls.length ? (
           <Badge variant="destructive">{limit} Limit Reached</Badge>

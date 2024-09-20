@@ -38,7 +38,7 @@ export default async function DashboardPage() {
             </p>
           </div>
         </div>
-        <UrlList limit={session?.user?.urlsLimit || 0} data={urls} />
+        <UrlList limit={session?.user?.urlsLimit || 0} data={urls} />{" "}
       </div>
     </main>
   );
