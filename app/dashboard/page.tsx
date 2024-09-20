@@ -23,7 +23,6 @@ export default async function DashboardPage() {
   if (session && session.user) {
     urls = (await listUserUrls(session.user.id)) as Url[];
   }
-  console.log(session.user);
   return (
     <main className="flex min-h-screen min-w-screen flex-col items-center justify-between">
       <div className="w-full flex flex-col justify-center items-center space-y-10">
