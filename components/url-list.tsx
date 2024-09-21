@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { EyeIcon, Link2, Trash } from "lucide-react";
+import { EyeIcon, Link2 } from "lucide-react";
 import { Url } from "@prisma/client";
-import { SyntheticEvent, useState } from "react";
-import ShortnenSheet from "./shorten-sheet";
+import { useState } from "react";
 import { toast } from "sonner";
+
+import ShortnenSheet from "./shorten-sheet";
+import DeleteURLDialog from "./delete-url";
+
 import QrDialog from "./qr-dialog";
 import { Switch } from "./ui/switch";
 import { Badge } from "./ui/badge";
@@ -100,31 +102,6 @@ const UrlRow = ({
     }
   };
 
-  const deleteUrl = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`/api/urls/${url.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        toast.error("Faild to Delete Url");
-      }
-      if (res.ok) {
-        const newUrls = urls.filter((row) => row.id !== url.id);
-        setUrls(newUrls);
-        toast.success("Branch Deleted Successfully");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Faild to Delete URL");
-      // send sonnner with error alert
-    }
-  };
-
   return (
     <li
       key={url.id}
@@ -167,10 +144,7 @@ const UrlRow = ({
         <div className="flex items-center gap-2">
           <QrDialog uuid={url.uuid} />
           <ShortnenSheet url={url} urls={urls} setUrls={setUrls} />
-          <Button variant="destructive" size="icon" onClick={deleteUrl}>
-            <Trash className="size-4" />
-            <span className="sr-only">Delete URL</span>
-          </Button>
+          <DeleteURLDialog url={url} urls={urls} setUrls={setUrls} />
         </div>
       </div>
     </li>
