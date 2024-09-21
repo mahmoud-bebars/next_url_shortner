@@ -9,7 +9,14 @@ import { toast } from "sonner";
 import QrDialog from "./qr-dialog";
 import { Switch } from "./ui/switch";
 import { Badge } from "./ui/badge";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader } from "./ui/card";
 export default function UrlList({
   limit,
   data,
@@ -20,27 +27,31 @@ export default function UrlList({
   const [urls, setUrls] = useState<Url[]>(data);
 
   return (
-    <div className="w-full max-w-3xl flex flex-col items-center justify-center px-2 pb-5 border rounded-lg">
-      <div className="w-full flex items-center gap-3 justify-between py-2 border-b mb-2">
-        <h2 className="text-2xl font-bold mb-2">My URLs</h2>{" "}
-        {limit === urls.length ? (
-          <Badge variant="destructive">{limit} Limit Reached</Badge>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Badge>
-              {urls.length} / {limit} urls
-            </Badge>
-            <ShortnenSheet url={null} urls={urls} setUrls={setUrls} />
-          </div>
-        )}
-      </div>
-
-      <ul className="w-full space-y-2">
-        {urls.map((url) => (
-          <UrlRow key={url.id} url={url} urls={urls} setUrls={setUrls} />
-        ))}
-      </ul>
-    </div>
+    <Card className="w-full max-w-3xl">
+      <CardHeader>
+        <div className="w-full flex items-center gap-3 justify-between">
+          <h2 className="text-2xl font-bold mb-2">My URLs</h2>{" "}
+          {limit === urls.length ? (
+            <Badge variant="destructive">{limit} Limit Reached</Badge>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Badge>
+                {urls.length} / {limit} urls
+              </Badge>
+              <ShortnenSheet url={null} urls={urls} setUrls={setUrls} />
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <Separator className="mb-2" />
+      <CardContent>
+        <ul className="w-full space-y-2">
+          {urls.map((url) => (
+            <UrlRow key={url.id} url={url} urls={urls} setUrls={setUrls} />
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -126,25 +137,37 @@ const UrlRow = ({
         onCheckedChange={() => toggleActiveURL()}
       />
       <div className="flex flex-col items-center justify-center gap-1">
-        <Link
-          href={`/${url.uuid}`}
-          target="_blank"
-          className="hover:underline text-blue-500 flex items-center gap-2"
-        >
-          <Link2 className="size-4" /> {url.title}
-        </Link>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href={`/${url.uuid}`}
+                target="_blank"
+                className="hover:underline capitalize text-blue-500 flex items-center gap-2"
+              >
+                <Link2 className="size-4" /> {url.title}
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{url.description}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <p className="text-xs font-mono font-thin">{url.originalUrl}</p>
+      </div>
+      <div className="flex flex-col items-center justify-center space-y-2 text-center ">
+        <div className="flex items-center gap-2">
+          <QrDialog uuid={url.uuid} />
+          <ShortnenSheet url={url} urls={urls} setUrls={setUrls} />
+          <Button variant="destructive" size="icon" onClick={deleteUrl}>
+            <Trash className="size-4" />
+            <span className="sr-only">Delete URL</span>
+          </Button>
+        </div>
         <span className="text-xs flex items-center gap-2">
           <EyeIcon className="size-4" />
           {url.views} view{url.views > 1 ? "s" : ""}
         </span>
-      </div>
-      <div className="flex items-center gap-2">
-        <QrDialog uuid={url.uuid} />
-        <ShortnenSheet url={url} urls={urls} setUrls={setUrls} />
-        <Button variant="destructive" size="icon" onClick={deleteUrl}>
-          <Trash className="size-4" />
-          <span className="sr-only">Delete URL</span>
-        </Button>
       </div>
     </li>
   );
