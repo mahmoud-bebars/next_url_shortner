@@ -140,7 +140,7 @@ export default function ShortnenSheet({
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex flex-col justify-center lg:grid lg:grid-cols-4 items-center gap-4">
             <Label htmlFor="title" className="text-right">
               Title
             </Label>
@@ -155,7 +155,7 @@ export default function ShortnenSheet({
             />
           </div>
 
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex flex-col justify-center lg:grid lg:grid-cols-4 items-center gap-4">
             <Label htmlFor="url" className="text-right">
               URL
             </Label>
@@ -171,7 +171,7 @@ export default function ShortnenSheet({
               }
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex flex-col justify-center lg:grid lg:grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
               Description
             </Label>
@@ -193,7 +193,7 @@ export default function ShortnenSheet({
               onClick={handleAction}
               disabled={isLoading}
               type="button"
-              className="flex gap-2"
+              className="w-full flex gap-2"
             >
               {isLoading && (
                 <LoaderCircleIcon className="size-5 animate-spin" />
