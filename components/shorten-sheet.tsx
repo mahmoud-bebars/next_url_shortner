@@ -45,7 +45,12 @@ export default function ShortnenSheet({
     e.preventDefault();
     setIsLoading(true);
 
-    if (url) {
+    const urlValidated = urlValidator(values.originalUrl);
+
+    if (!urlValidated) {
+      toast.error("Invalid URL Format");
+      setIsLoading(false);
+    } else if (url) {
       try {
         const res = await fetch(`/api/urls/${url.id}`, {
           method: "PUT",
@@ -75,18 +80,7 @@ export default function ShortnenSheet({
           setUrls(newUrls);
           setIsLoading(false);
           setIsOpen(false);
-          setValues({
-            id: "",
-            title: "",
-            description: "",
-            originalUrl: "",
-            isActive: true,
-            views: 0,
-            uuid: "",
-            userId: "",
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          });
+
           toast.success("URL Updated Successfully");
         }
       } catch (error) {
@@ -117,18 +111,7 @@ export default function ShortnenSheet({
 
           setUrls([body, ...urls]);
           setIsOpen(false);
-          setValues({
-            id: "",
-            title: "",
-            description: "",
-            originalUrl: "",
-            isActive: true,
-            views: 0,
-            uuid: "",
-            userId: "",
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          });
+
           toast.success("URL Created Successfully");
         }
       } catch (error) {
@@ -225,20 +208,12 @@ export default function ShortnenSheet({
   );
 }
 
-/* 
- <form onSubmit={handleSubmit} className="mb-4">
-      <div className="space-y-4">
-        <Input
-          className="h-12"
-          type="url"
-          placeholder="Enter your URL to Shorten"
-          required
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        <Button className="w-full p-2 " type="submit">
-          Shorten URL
-        </Button>
-      </div>
-    </form>
-*/
+const urlValidator = (url: string) => {
+  const urlRegex = /^(ftp|https?):\/\/[^ "]+$/;
+  const isUrlValid = urlRegex.test(url);
+
+  if (!isUrlValid) {
+    return false;
+  }
+  return true;
+};
