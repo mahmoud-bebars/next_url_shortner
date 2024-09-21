@@ -81,19 +81,20 @@ export default function QrDialog({ uuid }: { uuid: string }) {
             Download Your QR Code & Use it To Redirect People to the Url
           </DialogDescription>
         </DialogHeader>
-        <div className="flex items-center justify-center space-x-2">
+        <div className="flex items-center justify-center">
           <div ref={downloadRef}>
             <Canvas
               text={link}
               options={{
                 errorCorrectionLevel: "M",
                 margin: 2,
-                scale: 5,
-                width: 400,
+                scale: 2,
+                width: 300,
               }}
             />
-          </div>
+          </div>{" "}
         </div>
+
         <DialogFooter className="w-full justify-center gap-2">
           <Button
             onClick={prepareURL}
