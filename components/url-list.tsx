@@ -128,34 +128,42 @@ const UrlRow = ({
   return (
     <li
       key={url.id}
-      className="w-full flex items-center gap-2 justify-between border rounded-lg px-2 py-2"
+      className="w-full flex flex-col md:flex-row lg:flex-row items-center gap-2 justify-between border rounded-lg px-2 py-2"
     >
-      {" "}
-      <Switch
-        id="activation"
-        checked={url.isActive}
-        onCheckedChange={() => toggleActiveURL()}
-      />
-      <div className="flex flex-col items-center justify-center gap-1">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href={`/${url.uuid}`}
-                target="_blank"
-                className="hover:underline capitalize text-blue-500 flex items-center gap-2"
-              >
-                <Link2 className="size-4" /> {url.title}
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{url.description}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <p className="text-xs font-mono font-thin">{url.originalUrl}</p>
+      <div className="w-full md:w-2/3 lg:w-2/3 flex-row-reverse md:flex-row lg:flex-row flex items-center justify-between">
+        <Switch
+          id="activation"
+          checked={url.isActive}
+          onCheckedChange={() => toggleActiveURL()}
+        />
+        <div className=" flex flex-col items-center justify-center gap-1">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href={`/${url.uuid}`}
+                  target="_blank"
+                  className="hover:underline capitalize text-blue-500 flex items-center gap-2"
+                >
+                  <Link2 className="size-4" /> {url.title}
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{url.description}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <p className="hidden lg:block text-xs font-mono font-thin">
+            {url.originalUrl}
+          </p>
+        </div>
+        <div className="hidden md:block lg:block" />
       </div>
-      <div className="flex flex-col items-center justify-center space-y-2 text-center ">
+      <div className="w-full md:w-fit lg:w-fit flex md:flex-col lg:flex-col items-center md:justify-center lg:justify-center justify-between space-y-2 text-center ">
+        <span className="text-xs flex items-center gap-2">
+          <EyeIcon className="size-4" />
+          {url.views} view{url.views > 1 ? "s" : ""}
+        </span>
         <div className="flex items-center gap-2">
           <QrDialog uuid={url.uuid} />
           <ShortnenSheet url={url} urls={urls} setUrls={setUrls} />
@@ -164,10 +172,6 @@ const UrlRow = ({
             <span className="sr-only">Delete URL</span>
           </Button>
         </div>
-        <span className="text-xs flex items-center gap-2">
-          <EyeIcon className="size-4" />
-          {url.views} view{url.views > 1 ? "s" : ""}
-        </span>
       </div>
     </li>
   );
