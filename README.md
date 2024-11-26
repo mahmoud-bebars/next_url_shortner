@@ -1,4 +1,5 @@
 # URL Shortner
+![repo screen](https://github.com/user-attachments/assets/870e421a-6194-44c1-88e4-ac13b9d422fc)
 
 ## Getting Started
 
